@@ -6,9 +6,9 @@ var debugMode = true;
 var map;
 
 // Option chnages
-var genColor;
+var colorOptions = {};
 
-var collection = new L.LayerGroup();
+var collections = {};
 
 
 var debugMsg = function(text) {
@@ -51,28 +51,55 @@ var drawMap = function() {
 // Function for getting data
 var getData = function() {
     debugMsg('getData called!');
-    $('#data-loading').css('display', 'initial');
-    $('#data-options').css('display', 'none');
+    statusDataLoading();
     // Execute an AJAX request to get the data in data/response.js
     $.ajax({
         url: 'data/response.json',
         type: 'get',
         success: function(dat){
-            $('#data-loading').css('display', 'none');
-            $('#data-options').css('display', 'initial');
+            statusDataComplete();
 
-            $('#data-generic').change(function() {
-                debugMsg('old genColor: ' + genColor);
-                genColor = $('#data-generic').val();
-                collection.eachLayer(function(marker){
-                    marker.setStyle({
-                        color: genColor
-                    });
-                });
-                //customBuild(dat);
+
+
+            $('#removeLayer').click(function(evt) {
+                evt.preventDefault();
+                clearLayers()
             });
+
+
+
             debugMsg('Data finished loading.')
             customBuild(dat);
+
+            collections.generic.addTo(map);
+
+            $('#layer-option').change(function() {
+                debugMsg('layer-option has changed: ' + $('#layer-option').val());
+                if($('#layer-option').val() == 'layer-generic') {
+                    clearLayers();
+                    collections.generic.addTo(map);
+                } else if($('#layer-option').val() == 'layer-deaths') {
+                    clearLayers();
+                    if(!collections.hit || !collections.killed)
+                        buildDeath(dat);
+                    collections.hit.addTo(map);
+                    collections.killed.addTo(map);
+                }
+            });
+
+            colorBuildGeneric();
+            colorBuildDeath();
+
+            /*$('#color-generic').click(function() {
+                clearLayers();
+                collections.generic.addTo(map);
+            });
+
+            $('#color-deaths').click(function() {
+                clearLayers();
+                collections.hit.addTo(map);
+                collections.killed.addTo(map);
+            });*/
         },
         dataType: 'json'
     });
@@ -84,20 +111,101 @@ var getData = function() {
 // Do something creative with the data here!  
 var customBuild = function(data) {
     debugMsg('customBuild called!');
+    buildGeneric(data);
+};
 
+var clearLayers = function() {
+    for(var layer in collections) {
+        map.removeLayer(collections[layer]);
+    }
+}
+
+var statusDataLoading = function() {
+    debugMsg('DataLoading Run!')
+    $('#data-loading').css('display', 'initial');
+    $('#data-options').css('display', 'none');
+}
+
+var statusDataComplete = function() {
+    debugMsg('DataComplete Run!')
+    $('#data-loading').css('display', 'none');
+    $('#data-options').css('display', 'initial');
+}
+
+var buildGeneric = function(data) {
+    var collectionGeneric = new L.LayerGroup();
     data.map(function(entry) {
-        if (!genColor)
-            genColor = '#FF0000';
+        if (!colorOptions.generic)
+            colorOptions.generic = '#FF0000';
         var marker = new L.circleMarker([entry.lat, entry.lng], {
-            color: genColor,
+            color: colorOptions.generic,
             radius: 5,
             opacity: 0.4
         });
-        collection.addLayer(marker);
+        collectionGeneric.addLayer(marker);
     });
-    collection.addTo(map);
-};
+    collections.generic = collectionGeneric;
+}
 
+var colorBuildGeneric  = function() {
+    $('#set-color-generic').change(function() {
+        colorOptions.generic = $('#set-color-generic').val();
+        collections.generic.eachLayer(function(marker){
+            marker.setStyle({
+                color: colorOptions.generic
+            });
+        });
+    });
+}
 
+var buildDeath = function(data) {
+    statusDataLoading();
+    var collectionHit = new L.LayerGroup();
+    var collectionKilled = new L.LayerGroup();
+    data.map(function(entry) {
+        if (!colorOptions.hit)
+            colorOptions.hit = '#FFA500';
+        if (!colorOptions.killed)
+            colorOptions.killed = '#FF0000';
+        if(entry['Hit or Killed?'] == 'Hit') {
+            var marker = new L.circleMarker([entry.lat, entry.lng], {
+                color: colorOptions.hit,
+                radius: 5,
+                opacity: 0.4
+            });
+            collectionHit.addLayer(marker);
+        } else if (entry['Hit or Killed?'] == 'Killed') {
+            var marker = new L.circleMarker([entry.lat, entry.lng], {
+                color: colorOptions.killed,
+                radius: 5,
+                opacity: 0.4
+            });
+            collectionKilled.addLayer(marker);
+        }
+    });
+    collections.hit = collectionHit;
+    collections.killed = collectionKilled;
+    statusDataComplete();
+}
+
+var colorBuildDeath  = function() {
+    $('#set-color-hit').change(function() {
+        colorOptions.hit = $('#set-color-hit').val();
+        collections.hit.eachLayer(function(marker){
+            marker.setStyle({
+                color: colorOptions.hit
+            });
+        });
+    });
+
+    $('#set-color-killed').change(function() {
+        colorOptions.killed = $('#set-color-killed').val();
+        collections.killed.eachLayer(function(marker){
+            marker.setStyle({
+                color: colorOptions.killed
+            });
+        });
+    });
+}
 
 

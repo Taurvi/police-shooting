@@ -44,8 +44,28 @@
         <i class="fa fa-spinner fa-pulse fa-3x"></i>
     </div>
     <div id="data-options">
-            <label for="data-generic">Generic Color</label>
-            <input id="data-generic" type="color" value="#FF0000">
+        <form id="data-form">
+            <label for="layer-option">Select Data View:</label>
+            <select type="dropdown" id="layer-option">
+                <option value="layer-generic">Generic</option>
+                <option value="layer-deaths">Deaths</option>
+            </select>
+
+            <br><br>
+            <label for="set-color-generic">Generic Color: </label>
+            <input id="set-color-generic" type="color" value="#FF0000">
+            <br><br>
+
+            <label for="set-color-hit">Suspect Hit: </label>
+            <input id="set-color-hit" type="color" value="#FFA500">
+            <br>
+            <label for="set-color-killed">Suspect Killed: </label>
+            <input id="set-color-killed" type="color" value="#FF0000">
+
+
+
+            <br><br>
+            <button id="removeLayer">Remove Layer</button>
         </form>
     </div>
 </div>
