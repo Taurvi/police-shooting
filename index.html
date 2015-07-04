@@ -25,16 +25,23 @@
 
 <body>
 <div id="map-container">
-    <div id="loading">
+    <div id="map-loading">
         Please Wait: Map is Loading</br>
         <i class="fa fa-spinner fa-pulse fa-5x"></i>
     </div>
 </div>
-<div id="map-options">
-    Options go here
+<div id="data-panel">
+    <div id="data-loading">
+        Please Wait: Data is Loading</br>
+        <i class="fa fa-spinner fa-pulse fa-3x"></i>
+    </div>
+    <div id="data-options">
+        Data Options Here
+    </div>
 </div>
 <script>
     $(function() {
+        debugMsg('DOM has loaded.')
         resizeMapHeight();
         drawMap();
     });

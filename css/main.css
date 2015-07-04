@@ -4,12 +4,19 @@
     float: left;
 }
 
-#map-options {
-    width: 30%;
-    float: left;
+#map-loading {
     text-align: center;
 }
 
-#loading {
+#data-panel {
+    width: 30%;
+    float: left;
+}
+
+#data-loading {
     text-align: center;
+}
+
+#data-options {
+    display: none;
 }
