@@ -94,6 +94,13 @@ var getData = function() {
                         collections.unarmed.addTo(map);
                         collections.armed.addTo(map);
                         break;
+                    case 'layer-gender':
+                        clearLayers();
+                        if(!collections.male || !collections.female)
+                            buildGender(dat);
+                        collections.male.addTo(map);
+                        collections.female.addTo(map);
+                        break;
                     default:
                         clearLayers();
                 }
@@ -112,6 +119,7 @@ var getData = function() {
             colorBuildGeneric();
             colorBuildDeath();
             colorBuildArmed();
+            colorBuildGender();
 
             /*$('#color-generic').click(function() {
                 clearLayers();
@@ -275,6 +283,55 @@ var colorBuildArmed  = function() {
         collections.armed.eachLayer(function(marker){
             marker.setStyle({
                 color: colorOptions.armed
+            });
+        });
+    });
+}
+
+var buildGender = function(data) {
+    statusDataLoading();
+    var collectionMale = new L.LayerGroup();
+    var collectionFemale = new L.LayerGroup();
+    data.map(function(entry) {
+        if (!colorOptions.male)
+            colorOptions.male = '#0099FF';
+        if (!colorOptions.female)
+            colorOptions.female = '#CC00FF';
+        if(entry["Victim's Gender"] == 'Male') {
+            var marker = new L.circleMarker([entry.lat, entry.lng], {
+                color: colorOptions.male,
+                radius: 5,
+                opacity: 0.4
+            });
+            collectionMale.addLayer(marker);
+        } else if (entry["Victim's Gender"] == 'Female') {
+            var marker = new L.circleMarker([entry.lat, entry.lng], {
+                color: colorOptions.female,
+                radius: 5,
+                opacity: 0.4
+            });
+            collectionFemale.addLayer(marker);
+        }
+    });
+    collections.male = collectionMale;
+    collections.female = collectionFemale;
+    statusDataComplete();
+}
+
+var colorBuildGender  = function() {
+    $('#set-color-male').change(function() {
+        colorOptions.male = $('#set-color-male').val();
+        collections.male.eachLayer(function(marker){
+            marker.setStyle({
+                color: colorOptions.male
+            });
+        });
+    });
+    $('#set-color-female').change(function() {
+        colorOptions.female = $('#set-color-female').val();
+        collections.female.eachLayer(function(marker){
+            marker.setStyle({
+                color: colorOptions.female
             });
         });
     });
