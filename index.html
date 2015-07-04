@@ -52,33 +52,62 @@
                 <option value="layer-armed">Suspect Unarmed/Armed</option>
                 <option value="layer-gender">Suspect Gender</option>
             </select>
+            <table class="table">
+                <tr class="view-table" id="row-generic">
+                    <td>
+                        <label for="set-color-generic">Generic Color: </label>
+                    </td>
+                    <td>
+                        <input id="set-color-generic" type="color" value="#FF0000">
+                    </td>
+                </tr>
+                <tr class="view-table" id="row-deaths">
+                    <td>
+                        <label for="set-color-hit">Suspect Hit: </label>
+                    </td>
+                    <td>
+                        <input id="set-color-hit" type="color" value="#FFA500">
+                    </td>
+                    <td>
+                        <label for="set-color-killed">Suspect Killed: </label>
+                    </td>
+                    <td>
+                        <input id="set-color-killed" type="color" value="#FF0000">
+                    </td>
+                </tr>
+                <tr class="view-table" id="row-armed">
+                    <td>
+                        <label for="set-color-unarmed">Suspect Unarmed: </label>
+                    </td>
+                    <td>
+                        <input id="set-color-unarmed" type="color" value="#00FF00">
+                    </td>
+                    <td>
+                        <label for="set-color-armed">Suspect Armed: </label>
+                    </td>
+                    <td>
+                        <input id="set-color-armed" type="color" value="#FFFF00">
+                    </td>
+                </tr>
+                <tr class="view-table" id="row-gender">
+                    <td>
+                        <label for="set-color-male">Male Suspect: </label>
+                    </td>
+                    <td>
+                        <input id="set-color-male" type="color" value="#0099FF">
+                    </td>
+                    <td>
+                        <label for="set-color-female">Female Suspect: </label>
+                    </td>
+                    <td>
+                        <input id="set-color-female" type="color" value="#CC00FF">
+                    </td>
+                </tr>
+            </table>
+
 
             <br><br>
-            <label for="set-color-generic">Generic Color: </label>
-            <input id="set-color-generic" type="color" value="#FF0000">
-            <br><br>
-
-            <label for="set-color-hit">Suspect Hit: </label>
-            <input id="set-color-hit" type="color" value="#FFA500">
-            <br>
-            <label for="set-color-killed">Suspect Killed: </label>
-            <input id="set-color-killed" type="color" value="#FF0000">
-            <br><br>
-
-            <label for="set-color-unarmed">Suspect Unarmed: </label>
-            <input id="set-color-unarmed" type="color" value="#00FF00">
-            <br>
-            <label for="set-color-armed">Suspect Armed: </label>
-            <input id="set-color-armed" type="color" value="#FFFF00">
-            <br><br>
-
-            <label for="set-color-male">Male Suspect: </label>
-            <input id="set-color-male" type="color" value="#0099FF">
-            <br>
-            <label for="set-color-female">Female Suspect: </label>
-            <input id="set-color-female" type="color" value="#CC00FF">
-            <br><br>
-            <button id="removeLayer">Remove Layer</button>
+            <button id="removeLayer">DEBUG: Remove Layer</button>
         </form>
     </div>
 </div>

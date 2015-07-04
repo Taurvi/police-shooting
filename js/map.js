@@ -79,6 +79,8 @@ var getData = function() {
                     case 'layer-generic':
                         clearLayers();
                         collections.generic.addTo(map);
+                        $('.view-table').css('display', 'none');
+                        $('#row-generic').css('display', 'initial');
                         break;
                     case 'layer-deaths':
                         clearLayers();
@@ -86,6 +88,8 @@ var getData = function() {
                             buildDeath(dat);
                         collections.hit.addTo(map);
                         collections.killed.addTo(map);
+                        $('.view-table').css('display', 'none');
+                        $('#row-deaths').css('display', 'initial');
                         break;
                     case 'layer-armed':
                         clearLayers();
@@ -93,6 +97,8 @@ var getData = function() {
                             buildArmed(dat);
                         collections.unarmed.addTo(map);
                         collections.armed.addTo(map);
+                        $('.view-table').css('display', 'none');
+                        $('#row-armed').css('display', 'initial');
                         break;
                     case 'layer-gender':
                         clearLayers();
@@ -100,6 +106,8 @@ var getData = function() {
                             buildGender(dat);
                         collections.male.addTo(map);
                         collections.female.addTo(map);
+                        $('.view-table').css('display', 'none');
+                        $('#row-gender').css('display', 'initial');
                         break;
                     default:
                         clearLayers();

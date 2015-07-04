@@ -20,3 +20,19 @@
 #data-options {
     display: none;
 }
+
+/* Hide data view rows */
+#row-generic {
+    display: initial;
+}
+#row-deaths {
+    display: none;
+}
+
+#row-armed {
+    display: none;
+}
+
+#row-gender {
+    display: none;
+}
