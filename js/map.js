@@ -8,13 +8,15 @@ var map;
 // Option chnages
 var genColor;
 
+var collection = new L.LayerGroup();
+
 
 var debugMsg = function(text) {
     if(debugMode)
         console.log('DEBUG: ' + text);
 };
 var resizeMapHeight = function() {
-    var setHeight = $(window).innerHeight() - 20;
+    var setHeight = $(window).innerHeight();
     debugMsg('resizeMapHeight called! Height is now: ' + setHeight);
     $('#map-container').css('height', setHeight);
 };
@@ -60,9 +62,14 @@ var getData = function() {
             $('#data-options').css('display', 'initial');
 
             $('#data-generic').change(function() {
+                debugMsg('old genColor: ' + genColor);
                 genColor = $('#data-generic').val();
-                debugMsg('Color: ' + genColor);
-                getData();
+                collection.eachLayer(function(marker){
+                    marker.setStyle({
+                        color: genColor
+                    });
+                });
+                //customBuild(dat);
             });
             debugMsg('Data finished loading.')
             customBuild(dat);
@@ -77,15 +84,18 @@ var getData = function() {
 // Do something creative with the data here!  
 var customBuild = function(data) {
     debugMsg('customBuild called!');
+
     data.map(function(entry) {
         if (!genColor)
             genColor = '#FF0000';
-        var marker = new L.circle([entry.lat, entry.lng], 100, {
+        var marker = new L.circleMarker([entry.lat, entry.lng], {
             color: genColor,
-            opacity: 0.5
+            radius: 5,
+            opacity: 0.4
         });
-        marker.addTo(map);
+        collection.addLayer(marker);
     });
+    collection.addTo(map);
 };
 
 
