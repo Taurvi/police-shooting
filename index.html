@@ -48,7 +48,8 @@
             <label for="layer-option">Select Data View:</label>
             <select type="dropdown" id="layer-option">
                 <option value="layer-generic">Generic</option>
-                <option value="layer-deaths">Deaths</option>
+                <option value="layer-deaths">Suspect Hit/Killed</option>
+                <option value="layer-armed">Suspect Unarmed/Armed</option>
             </select>
 
             <br><br>
@@ -61,9 +62,13 @@
             <br>
             <label for="set-color-killed">Suspect Killed: </label>
             <input id="set-color-killed" type="color" value="#FF0000">
+            <br><br>
 
-
-
+            <label for="set-color-unarmed">Suspect Unarmed: </label>
+            <input id="set-color-unarmed" type="color" value="#00FF00">
+            <br>
+            <label for="set-color-armed">Suspect Armed: </label>
+            <input id="set-color-armed" type="color" value="#FFFF00">
             <br><br>
             <button id="removeLayer">Remove Layer</button>
         </form>

@@ -75,7 +75,29 @@ var getData = function() {
 
             $('#layer-option').change(function() {
                 debugMsg('layer-option has changed: ' + $('#layer-option').val());
-                if($('#layer-option').val() == 'layer-generic') {
+                switch($('#layer-option').val()) {
+                    case 'layer-generic':
+                        clearLayers();
+                        collections.generic.addTo(map);
+                        break;
+                    case 'layer-deaths':
+                        clearLayers();
+                        if(!collections.hit || !collections.killed)
+                            buildDeath(dat);
+                        collections.hit.addTo(map);
+                        collections.killed.addTo(map);
+                        break;
+                    case 'layer-armed':
+                        clearLayers();
+                        if(!collections.unarmed || !collections.armed)
+                            buildArmed(dat);
+                        collections.unarmed.addTo(map);
+                        collections.armed.addTo(map);
+                        break;
+                    default:
+                        clearLayers();
+                }
+                /*if($('#layer-option').val() == 'layer-generic') {
                     clearLayers();
                     collections.generic.addTo(map);
                 } else if($('#layer-option').val() == 'layer-deaths') {
@@ -84,11 +106,12 @@ var getData = function() {
                         buildDeath(dat);
                     collections.hit.addTo(map);
                     collections.killed.addTo(map);
-                }
+                }*/
             });
 
             colorBuildGeneric();
             colorBuildDeath();
+            colorBuildArmed();
 
             /*$('#color-generic').click(function() {
                 clearLayers();
@@ -203,6 +226,55 @@ var colorBuildDeath  = function() {
         collections.killed.eachLayer(function(marker){
             marker.setStyle({
                 color: colorOptions.killed
+            });
+        });
+    });
+}
+
+var buildArmed = function(data) {
+    statusDataLoading();
+    var collectionUnarmed = new L.LayerGroup();
+    var collectionArmed = new L.LayerGroup();
+    data.map(function(entry) {
+        if (!colorOptions.unarmed)
+            colorOptions.unarmed = '#00FF00';
+        if (!colorOptions.armed)
+            colorOptions.armed = '#FFFF00';
+        if(entry['Armed or Unarmed?'] == 'Unarmed') {
+            var marker = new L.circleMarker([entry.lat, entry.lng], {
+                color: colorOptions.unarmed,
+                radius: 5,
+                opacity: 0.4
+            });
+            collectionUnarmed.addLayer(marker);
+        } else if (entry['Armed or Unarmed?'] == 'Armed') {
+            var marker = new L.circleMarker([entry.lat, entry.lng], {
+                color: colorOptions.armed,
+                radius: 5,
+                opacity: 0.4
+            });
+            collectionArmed.addLayer(marker);
+        }
+    });
+    collections.unarmed = collectionUnarmed;
+    collections.armed = collectionArmed;
+    statusDataComplete();
+}
+
+var colorBuildArmed  = function() {
+    $('#set-color-unarmed').change(function() {
+        colorOptions.unarmed = $('#set-color-unarmed').val();
+        collections.unarmed.eachLayer(function(marker){
+            marker.setStyle({
+                color: colorOptions.unarmed
+            });
+        });
+    });
+    $('#set-color-armed').change(function() {
+        colorOptions.armed = $('#set-color-armed').val();
+        collections.armed.eachLayer(function(marker){
+            marker.setStyle({
+                color: colorOptions.armed
             });
         });
     });
