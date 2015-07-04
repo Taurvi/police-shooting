@@ -36,12 +36,14 @@
         <i class="fa fa-spinner fa-pulse fa-3x"></i>
     </div>
     <div id="data-options">
-        Data Options Here
+            <label for="data-generic">Generic Color</label>
+            <input id="data-generic" type="color" value="#FF0000">
+        </form>
     </div>
 </div>
 <script>
     $(function() {
-        debugMsg('DOM has loaded.')
+        debugMsg('DOM has loaded.');
         resizeMapHeight();
         drawMap();
     });
