@@ -36,3 +36,16 @@
 #row-gender {
     display: none;
 }
+
+#test {
+    text-align: center;
+    display: block;
+}
+
+td {
+    width: 50%;
+}
+
+#data-info {
+    display: none;
+}

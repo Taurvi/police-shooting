@@ -16,8 +16,6 @@
     <script src='https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.css' rel='stylesheet' />
 
-    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox.js/v2.2.1/mapbox.css' rel='stylesheet' />
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -45,13 +43,15 @@
     </div>
     <div id="data-options">
         <form id="data-form">
+        <span id="test">
             <label for="layer-option">Select Data View:</label>
             <select type="dropdown" id="layer-option">
                 <option value="layer-generic">Generic</option>
-                <option value="layer-deaths">Suspect Hit/Killed</option>
-                <option value="layer-armed">Suspect Unarmed/Armed</option>
-                <option value="layer-gender">Suspect Gender</option>
+                <option value="layer-deaths">Victim Hit/Killed</option>
+                <option value="layer-armed">Victim Unarmed/Armed</option>
+                <option value="layer-gender">Victim Gender</option>
             </select>
+            </span>
             <table class="table">
                 <tr class="view-table" id="row-generic">
                     <td>
@@ -63,13 +63,13 @@
                 </tr>
                 <tr class="view-table" id="row-deaths">
                     <td>
-                        <label for="set-color-hit">Suspect Hit: </label>
+                        <label for="set-color-hit">Victim Hit: </label>
                     </td>
                     <td>
                         <input id="set-color-hit" type="color" value="#FFA500">
                     </td>
                     <td>
-                        <label for="set-color-killed">Suspect Killed: </label>
+                        <label for="set-color-killed">Victim Killed: </label>
                     </td>
                     <td>
                         <input id="set-color-killed" type="color" value="#FF0000">
@@ -77,13 +77,13 @@
                 </tr>
                 <tr class="view-table" id="row-armed">
                     <td>
-                        <label for="set-color-unarmed">Suspect Unarmed: </label>
+                        <label for="set-color-unarmed">Victim Unarmed: </label>
                     </td>
                     <td>
                         <input id="set-color-unarmed" type="color" value="#00FF00">
                     </td>
                     <td>
-                        <label for="set-color-armed">Suspect Armed: </label>
+                        <label for="set-color-armed">Victim Armed: </label>
                     </td>
                     <td>
                         <input id="set-color-armed" type="color" value="#FFFF00">
@@ -91,20 +91,67 @@
                 </tr>
                 <tr class="view-table" id="row-gender">
                     <td>
-                        <label for="set-color-male">Male Suspect: </label>
+                        <label for="set-color-male">Male Victim: </label>
                     </td>
                     <td>
                         <input id="set-color-male" type="color" value="#0099FF">
                     </td>
                     <td>
-                        <label for="set-color-female">Female Suspect: </label>
+                        <label for="set-color-female">Female Victim: </label>
                     </td>
                     <td>
                         <input id="set-color-female" type="color" value="#CC00FF">
                     </td>
                 </tr>
             </table>
-
+            <div id="data-info">
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <th>Date:</th>
+                        <td id="info-date"></td>
+                    </tr>
+                    <tr>
+                        <th>Location:</th>
+                        <td id="info-location"></td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Victim's Age:
+                        </th>
+                        <td id="info-age"></td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Victim's Gender:
+                        </th>
+                        <td id="info-gender"></td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Hit or Killed:
+                        </th>
+                        <td id="info-status"></td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Armed or Unarmed:
+                        </th>
+                        <td id="info-armed"></td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Weapon:
+                        </th>
+                        <td id="info-weapon"></td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Source Link:
+                        </th>
+                        <td id="info-source"></td>
+                    </tr>
+                </table>
+            </div>
 
             <br><br>
             <button id="removeLayer">DEBUG: Remove Layer</button>

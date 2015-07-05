@@ -154,6 +154,7 @@ var customBuild = function(data) {
 };
 
 var clearLayers = function() {
+    $('#data-info').css('display', 'none');
     for(var layer in collections) {
         map.removeLayer(collections[layer]);
     }
@@ -171,6 +172,19 @@ var statusDataComplete = function() {
     $('#data-options').css('display', 'initial');
 }
 
+var populateInfo = function(entry) {
+    $('#data-info').css('display', 'initial');
+    $('#info-date').text(entry['Date Searched']);
+    var city = entry["State"].substr(0, 2);
+    $('#info-location').text(entry['City'] + ', ' + city);
+    $('#info-age').text(entry["Victim's Age"]);
+    $('#info-gender').text(entry["Victim's Gender"]);
+    $('#info-status').text(entry['Hit or Killed?']);
+    $('#info-armed').text(entry['Armed or Unarmed?']);
+    $('#info-weapon').text(entry['Weapon']);
+    $('#info-source').html('<a href="' + entry['Source Link'] + '">Link</a>')
+}
+
 var buildGeneric = function(data) {
     var collectionGeneric = new L.LayerGroup();
     data.map(function(entry) {
@@ -181,7 +195,12 @@ var buildGeneric = function(data) {
             radius: 5,
             opacity: 0.4
         });
+        marker.bindPopup('Selected.');
+        marker.on('click', function() {
+            populateInfo(entry);
+        });
         collectionGeneric.addLayer(marker);
+
     });
     collections.generic = collectionGeneric;
 }
@@ -191,7 +210,7 @@ var colorBuildGeneric  = function() {
         colorOptions.generic = $('#set-color-generic').val();
         collections.generic.eachLayer(function(marker){
             marker.setStyle({
-                color: colorOptions.generic
+                color: colorOptions.generic,
             });
         });
     });
@@ -212,12 +231,20 @@ var buildDeath = function(data) {
                 radius: 5,
                 opacity: 0.4
             });
+            marker.bindPopup('Selected.');
+            marker.on('click', function() {
+                populateInfo(entry);
+            });
             collectionHit.addLayer(marker);
         } else if (entry['Hit or Killed?'] == 'Killed') {
             var marker = new L.circleMarker([entry.lat, entry.lng], {
                 color: colorOptions.killed,
                 radius: 5,
                 opacity: 0.4
+            });
+            marker.bindPopup('Selected.');
+            marker.on('click', function() {
+                populateInfo(entry);
             });
             collectionKilled.addLayer(marker);
         }
@@ -262,12 +289,20 @@ var buildArmed = function(data) {
                 radius: 5,
                 opacity: 0.4
             });
+            marker.bindPopup('Selected.');
+            marker.on('click', function() {
+                populateInfo(entry);
+            });
             collectionUnarmed.addLayer(marker);
         } else if (entry['Armed or Unarmed?'] == 'Armed') {
             var marker = new L.circleMarker([entry.lat, entry.lng], {
                 color: colorOptions.armed,
                 radius: 5,
                 opacity: 0.4
+            });
+            marker.bindPopup('Selected.');
+            marker.on('click', function() {
+                populateInfo(entry);
             });
             collectionArmed.addLayer(marker);
         }
@@ -311,12 +346,20 @@ var buildGender = function(data) {
                 radius: 5,
                 opacity: 0.4
             });
+            marker.bindPopup('Selected.');
+            marker.on('click', function() {
+                populateInfo(entry);
+            });
             collectionMale.addLayer(marker);
         } else if (entry["Victim's Gender"] == 'Female') {
             var marker = new L.circleMarker([entry.lat, entry.lng], {
                 color: colorOptions.female,
                 radius: 5,
                 opacity: 0.4
+            });
+            marker.bindPopup('Selected.');
+            marker.on('click', function() {
+                populateInfo(entry);
             });
             collectionFemale.addLayer(marker);
         }
