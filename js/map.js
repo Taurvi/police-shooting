@@ -16,17 +16,11 @@ var debugMsg = function(text) {
         console.log('DEBUG: ' + text);
 };
 
-var statusDataLoading = function() {
-    debugMsg('DataLoading Run!')
-    $('#data-loading').css('display', 'initial');
-    $('#data-options').css('display', 'none');
-}
-
 var statusDataComplete = function() {
-    debugMsg('DataComplete Run!')
+    debugMsg('DataComplete Run!');
     $('#data-loading').css('display', 'none');
     $('#data-options').css('display', 'initial');
-}
+};
 
 var resizeMapHeight = function() {
     var setHeight = $(window).innerHeight();
@@ -51,16 +45,16 @@ var checkValidInput = function(entry) {
         'Armed or Unarmed?',
         'Weapon',
         'Source Link'
-    ]
+    ];
 
     checkKeys.map(function(key) {
         if (!(key in entry)) {
             valid = false;
         }
-    })
+    });
 
     return valid;
-}
+};
 
 // On window resize, resize container
 $(window).resize(function() {
@@ -93,13 +87,12 @@ var drawMap = function() {
 // Function for getting data
 var getData = function() {
     debugMsg('getData called!');
-    statusDataLoading();
     // Execute an AJAX request to get the data in data/response.js
     $.ajax({
         url: 'data/response.json',
         type: 'get',
         success: function(dat){
-            statusDataComplete();
+
 
 
 
@@ -113,6 +106,7 @@ var getData = function() {
             debugMsg('JSON file imported.');
             customBuild(dat);
             debugMsg('Data loaded.');
+            statusDataComplete();
 
             collections.generic.addTo(map);
 
@@ -175,7 +169,7 @@ var clearLayers = function() {
     for(var layer in collections) {
         map.removeLayer(collections[layer]);
     }
-}
+};
 
 var populateInfo = function(entry) {
     $('#data-info').css('display', 'initial');
@@ -188,7 +182,7 @@ var populateInfo = function(entry) {
     $('#info-armed').text(entry['Armed or Unarmed?']);
     $('#info-weapon').text(entry['Weapon']);
     $('#info-source').html('<a href="' + entry['Source Link'] + '">Link</a>')
-}
+};
 
 var buildGeneric = function(data) {
     var collectionGeneric = new L.LayerGroup();
@@ -210,21 +204,20 @@ var buildGeneric = function(data) {
         }
     });
     collections.generic = collectionGeneric;
-}
+};
 
 var colorBuildGeneric  = function() {
     $('#set-color-generic').change(function() {
         colorOptions.generic = $('#set-color-generic').val();
         collections.generic.eachLayer(function(marker){
             marker.setStyle({
-                color: colorOptions.generic,
+                color: colorOptions.generic
             });
         });
     });
-}
+};
 
 var buildDeath = function(data) {
-    statusDataLoading();
     var collectionHit = new L.LayerGroup();
     var collectionKilled = new L.LayerGroup();
     data.map(function(entry) {
@@ -260,8 +253,7 @@ var buildDeath = function(data) {
     });
     collections.hit = collectionHit;
     collections.killed = collectionKilled;
-    statusDataComplete();
-}
+};
 
 var colorBuildDeath  = function() {
     $('#set-color-hit').change(function() {
@@ -281,10 +273,9 @@ var colorBuildDeath  = function() {
             });
         });
     });
-}
+};
 
 var buildArmed = function(data) {
-    statusDataLoading();
     var collectionUnarmed = new L.LayerGroup();
     var collectionArmed = new L.LayerGroup();
     data.map(function(entry) {
@@ -320,8 +311,7 @@ var buildArmed = function(data) {
     });
     collections.unarmed = collectionUnarmed;
     collections.armed = collectionArmed;
-    statusDataComplete();
-}
+};
 
 var colorBuildArmed  = function() {
     $('#set-color-unarmed').change(function() {
@@ -340,10 +330,9 @@ var colorBuildArmed  = function() {
             });
         });
     });
-}
+};
 
 var buildGender = function(data) {
-    statusDataLoading();
     var collectionMale = new L.LayerGroup();
     var collectionFemale = new L.LayerGroup();
     data.map(function(entry) {
@@ -379,8 +368,7 @@ var buildGender = function(data) {
     });
     collections.male = collectionMale;
     collections.female = collectionFemale;
-    statusDataComplete();
-}
+};
 
 var colorBuildGender  = function() {
     $('#set-color-male').change(function() {
@@ -399,6 +387,6 @@ var colorBuildGender  = function() {
             });
         });
     });
-}
+};
 
 
