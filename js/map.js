@@ -2,7 +2,7 @@
 L.mapbox.accessToken = 'pk.eyJ1IjoidGF1cnZpIiwiYSI6IjM1ODgzNzk4YjA5ODBkMDNlMjcwNjQ3NzU5MzE2MDY1In0.0ERCQNqvljTqSGNoUzZnnA';
 
 // Debug function
-var debugMode = true;
+var debugMode = false;
 
 // Stores the map
 var map;
