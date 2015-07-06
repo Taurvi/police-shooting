@@ -4,17 +4,13 @@
     float: left;
 }
 
-#map-loading {
+#map-loading, #data-loading {
     text-align: center;
 }
 
 #data-panel {
     width: 30%;
     float: left;
-}
-
-#data-loading {
-    text-align: center;
 }
 
 #data-options {
@@ -37,7 +33,7 @@
     display: none;
 }
 
-#test {
+.centerText {
     text-align: center;
     display: block;
 }
@@ -46,7 +42,11 @@ td {
     width: 50%;
 }
 
-tr.view-table td {
+tr.view-table td{
+    width: 25%;
+}
+
+#filterTable td {
     width: 25%;
 }
 

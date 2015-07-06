@@ -43,7 +43,7 @@
     </div>
     <div id="data-options">
         <form id="data-form">
-        <span id="test">
+        <span class="centerText">
             <label for="layer-option">Select Data View:</label>
             <select type="dropdown" id="layer-option">
                 <option value="layer-generic">Generic</option>
@@ -104,6 +104,25 @@
                     </td>
                 </tr>
             </table>
+            <span class="centerText">Select Filters:</span>
+            <table class="table" id="filterTable">
+                <tr>
+                    <td><input id="filter-male" type="checkbox"> <label for="filter-male">Male</label></td>
+                    <td><input id="filter-female" type="checkbox"> <label for="filter-female">Female</label></td>
+                </tr>
+                <tr>
+                    <td><input id="filter-hit" type="checkbox"> <label for="filter-hit">Victim Hit</label></td>
+                    <td><input id="filter-killed" type="checkbox"> <label for="filter-killed">Victim Killed</label></td>
+                </tr>
+                <tr>
+                    <td><input id="filter-unarmed" type="checkbox"> <label for="filter-unarmed">Victim Unarmed</label></td>
+                    <td><input id="filter-armed" type="checkbox"> <label for="filter-armed">Victim Armed</label></td>
+                </tr>
+                <tr>
+                    <td><label for="filter-age-min">Min Age: </label><input id="filter-age-min" type="number" min="0" max="100" value="0"></td>
+                    <td><label for="filter-age-max">Max Age: </label><input id="filter-age-max" type="number" min="0" max="100" value="100"></td>
+                </tr>
+            </table>
             <div id="data-info">
                 <table class="table table-bordered table-striped">
                     <tr>
@@ -152,17 +171,14 @@
                     </tr>
                 </table>
             </div>
-
-            <br><br>
-            <button id="removeLayer">DEBUG: Remove Layer</button>
         </form>
     </div>
 </div>
 <script>
     $(function() {
-        debugMsg('DOM has loaded.');
-        resizeMapHeight();
-        drawMap();
+            debugMsg('DOM has loaded.');
+            resizeMapHeight();
+            drawMap();
     });
 </script>
 </body>
