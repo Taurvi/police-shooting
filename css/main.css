@@ -53,3 +53,28 @@ tr.view-table td{
 #data-info {
     display: none;
 }
+
+h3 {
+    margin-top: 5px;
+    z-index: 1900;
+}
+
+table {
+    width: 100%;
+    font-size: .9em;
+
+}
+
+#info-summary {
+    overflow: auto;
+    max-height: 50px;
+}
+#about{
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: justify;
+}
+
+#data-view, #data-info  {
+    margin-bottom: 0px;
+}

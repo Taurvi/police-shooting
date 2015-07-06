@@ -3,13 +3,15 @@ L.mapbox.accessToken = 'pk.eyJ1IjoidGF1cnZpIiwiYSI6IjM1ODgzNzk4YjA5ODBkMDNlMjcwN
 
 // Debug function
 var debugMode = true;
+
+// Stores the map
 var map;
 
-// Option chnages
-var colorOptions = {};
-
+// Stores map layers
 var collections = {};
 
+// Stores colors for the map
+var colorOptions = {};
 
 var debugMsg = function(text) {
     if(debugMode)
@@ -41,25 +43,34 @@ var checkValidInput = function(entry) {
         'City',
         "Victim's Age",
         "Victim's Gender",
+        "Race",
         'Hit or Killed?',
         'Armed or Unarmed?',
         'Weapon',
-        'Source Link'
+        'Source Link',
+        "Summary"
     ];
 
     checkKeys.map(function(key) {
-        if (!(key in entry)) {
+        if (!(entry.hasOwnProperty(key))) {
             valid = false;
         }
     });
-
     return valid;
+};
+
+var clearLayers = function() {
+    debugMsg('clearLayers run!');
+    $('#data-info').css('display', 'none');
+    for(var layer in collections) {
+        map.removeLayer(collections[layer]);
+    }
 };
 
 // On window resize, resize container
 $(window).resize(function() {
-    debugMsg('Window has been resized!');
     resizeMapHeight();
+    debugMsg('Window has been resized!');
 });
 
 
@@ -87,62 +98,26 @@ var drawMap = function() {
 // Function for getting data
 var getData = function() {
     debugMsg('getData called!');
-    // Execute an AJAX request to get the data in data/response.js
     $.ajax({
         url: 'data/response.json',
         type: 'get',
         success: function(dat){
-
-
-
-
             $('#removeLayer').click(function(evt) {
                 evt.preventDefault();
                 clearLayers()
             });
 
-
-
             debugMsg('JSON file imported.');
+
             customBuild(dat);
+
             debugMsg('Data loaded.');
             statusDataComplete();
 
             collections.generic.addTo(map);
 
-            $('#layer-option').change(function() {
-                switch($('#layer-option').val()) {
-                    case 'layer-generic':
-                        clearLayers();
-                        collections.generic.addTo(map);
-                        $('.view-table').css('display', 'none');
-                        $('#row-generic').css('display', 'initial');
-                        break;
-                    case 'layer-deaths':
-                        clearLayers();
-                        collections.hit.addTo(map);
-                        collections.killed.addTo(map);
-                        $('.view-table').css('display', 'none');
-                        $('#row-deaths').css('display', 'initial');
-                        break;
-                    case 'layer-armed':
-                        clearLayers();
-                        collections.unarmed.addTo(map);
-                        collections.armed.addTo(map);
-                        $('.view-table').css('display', 'none');
-                        $('#row-armed').css('display', 'initial');
-                        break;
-                    case 'layer-gender':
-                        clearLayers();
-                        collections.male.addTo(map);
-                        collections.female.addTo(map);
-                        $('.view-table').css('display', 'none');
-                        $('#row-gender').css('display', 'initial');
-                        break;
-                    default:
-                        clearLayers();
-                }
-            });
+            displayMap();
+
             colorBuildGeneric();
             colorBuildDeath();
             colorBuildArmed();
@@ -151,24 +126,49 @@ var getData = function() {
         dataType: 'json'
     });
 
-    // When your request is successful, call your customBuild function
-
 };
 
-// Do something creative with the data here!  
 var customBuild = function(data) {
-    debugMsg('customBuild called!');
     buildGeneric(data);
     buildDeath(data);
     buildArmed(data);
     buildGender(data);
 };
 
-var clearLayers = function() {
-    $('#data-info').css('display', 'none');
-    for(var layer in collections) {
-        map.removeLayer(collections[layer]);
-    }
+var displayMap = function() {
+    $('#layer-option').change(function() {
+        switch($('#layer-option').val()) {
+            case 'layer-generic':
+                clearLayers();
+                collections.generic.addTo(map);
+                $('.view-table').css('display', 'none');
+                $('#row-generic').css('display', 'initial');
+                break;
+            case 'layer-deaths':
+                clearLayers();
+                collections.hit.addTo(map);
+                collections.killed.addTo(map);
+                $('.view-table').css('display', 'none');
+                $('#row-deaths').css('display', 'initial');
+                break;
+            case 'layer-armed':
+                clearLayers();
+                collections.unarmed.addTo(map);
+                collections.armed.addTo(map);
+                $('.view-table').css('display', 'none');
+                $('#row-armed').css('display', 'initial');
+                break;
+            case 'layer-gender':
+                clearLayers();
+                collections.male.addTo(map);
+                collections.female.addTo(map);
+                $('.view-table').css('display', 'none');
+                $('#row-gender').css('display', 'initial');
+                break;
+            default:
+                clearLayers();
+        }
+    });
 };
 
 var populateInfo = function(entry) {
@@ -178,16 +178,17 @@ var populateInfo = function(entry) {
     $('#info-location').text(entry['City'] + ', ' + city);
     $('#info-age').text(entry["Victim's Age"]);
     $('#info-gender').text(entry["Victim's Gender"]);
+    $('#info-race').text(entry["Race"]);
     $('#info-status').text(entry['Hit or Killed?']);
     $('#info-armed').text(entry['Armed or Unarmed?']);
     $('#info-weapon').text(entry['Weapon']);
-    $('#info-source').html('<a href="' + entry['Source Link'] + '">Link</a>')
+    $('#info-source').html('<a href="' + entry['Source Link'] + '" target="_blank">Link</a>');
+    $('#info-summary').text(entry['Summary'])
 };
 
 var buildGeneric = function(data) {
     var collectionGeneric = new L.LayerGroup();
     data.map(function(entry) {
-        debugMsg('CheckValidInput: ' + checkValidInput(entry));
         if (checkValidInput(entry)) {
             if (!colorOptions.generic)
                 colorOptions.generic = '#FF0000';
@@ -196,7 +197,7 @@ var buildGeneric = function(data) {
                 radius: 5,
                 opacity: 0.4
             });
-            marker.bindPopup('Selected.');
+            marker.bindPopup('Selected');
             marker.on('click', function() {
                 populateInfo(entry);
             });
@@ -232,7 +233,7 @@ var buildDeath = function(data) {
                     radius: 5,
                     opacity: 0.4
                 });
-                marker.bindPopup('Selected.');
+                marker.bindPopup('Selected');
                 marker.on('click', function () {
                     populateInfo(entry);
                 });
@@ -243,7 +244,7 @@ var buildDeath = function(data) {
                     radius: 5,
                     opacity: 0.4
                 });
-                marker.bindPopup('Selected.');
+                marker.bindPopup('Selected');
                 marker.on('click', function () {
                     populateInfo(entry);
                 });
@@ -290,7 +291,7 @@ var buildArmed = function(data) {
                     radius: 5,
                     opacity: 0.4
                 });
-                marker.bindPopup('Selected.');
+                marker.bindPopup('Selected');
                 marker.on('click', function () {
                     populateInfo(entry);
                 });
@@ -301,7 +302,7 @@ var buildArmed = function(data) {
                     radius: 5,
                     opacity: 0.4
                 });
-                marker.bindPopup('Selected.');
+                marker.bindPopup('Selected');
                 marker.on('click', function () {
                     populateInfo(entry);
                 });
@@ -358,7 +359,7 @@ var buildGender = function(data) {
                     radius: 5,
                     opacity: 0.4
                 });
-                marker.bindPopup('Selected.');
+                marker.bindPopup('Selected');
                 marker.on('click', function () {
                     populateInfo(entry);
                 });
@@ -388,5 +389,3 @@ var colorBuildGender  = function() {
         });
     });
 };
-
-

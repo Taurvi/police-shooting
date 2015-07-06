@@ -36,7 +36,10 @@
         <i class="fa fa-spinner fa-pulse fa-5x"></i>
     </div>
 </div>
+
 <div id="data-panel">
+    <h3 class="centerText">DeadSpin Police Shooting Map</h3>
+    <p id="about">This map shows crowdsourced data on police shootings from Fall of 2014. The datapoints can be colored by several categories by using the dropdown below. Additionally, you may click on a point for more information  about the event. For more information about the project click <a href="http://regressing.deadspin.com/deadspin-police-shooting-database-update-were-still-go-1627414202" target="_blank">here</a>.</p>
     <div id="data-loading">
         Please Wait: Data is Loading</br>
         <i class="fa fa-spinner fa-pulse fa-3x"></i>
@@ -50,9 +53,8 @@
                 <option value="layer-deaths">Victim Hit/Killed</option>
                 <option value="layer-armed">Victim Unarmed/Armed</option>
                 <option value="layer-gender">Victim Gender</option>
-            </select>
-            </span>
-            <table class="table">
+            </select></span>
+            <table class="table" id="data-view">
                 <tr class="view-table" id="row-generic">
                     <td>
                         <label for="set-color-generic">Generic Color: </label>
@@ -104,25 +106,6 @@
                     </td>
                 </tr>
             </table>
-            <span class="centerText">Select Filters:</span>
-            <table class="table" id="filterTable">
-                <tr>
-                    <td><input id="filter-male" type="checkbox"> <label for="filter-male">Male</label></td>
-                    <td><input id="filter-female" type="checkbox"> <label for="filter-female">Female</label></td>
-                </tr>
-                <tr>
-                    <td><input id="filter-hit" type="checkbox"> <label for="filter-hit">Victim Hit</label></td>
-                    <td><input id="filter-killed" type="checkbox"> <label for="filter-killed">Victim Killed</label></td>
-                </tr>
-                <tr>
-                    <td><input id="filter-unarmed" type="checkbox"> <label for="filter-unarmed">Victim Unarmed</label></td>
-                    <td><input id="filter-armed" type="checkbox"> <label for="filter-armed">Victim Armed</label></td>
-                </tr>
-                <tr>
-                    <td><label for="filter-age-min">Min Age: </label><input id="filter-age-min" type="number" min="0" max="100" value="0"></td>
-                    <td><label for="filter-age-max">Max Age: </label><input id="filter-age-max" type="number" min="0" max="100" value="100"></td>
-                </tr>
-            </table>
             <div id="data-info">
                 <table class="table table-bordered table-striped">
                     <tr>
@@ -147,6 +130,12 @@
                     </tr>
                     <tr>
                         <th>
+                            Victim's Race:
+                        </th>
+                        <td id="info-race"></td>
+                    </tr>
+                    <tr>
+                        <th>
                             Hit or Killed:
                         </th>
                         <td id="info-status"></td>
@@ -168,6 +157,20 @@
                             Source Link:
                         </th>
                         <td id="info-source"></td>
+                    </tr>
+                    <tr>
+                </table>
+                <table class="table" >
+                    <tr>
+                        <th>
+                        Summary:
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="info-summary">
+                            </div>
+                        </td>
                     </tr>
                 </table>
             </div>
