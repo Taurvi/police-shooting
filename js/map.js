@@ -109,7 +109,11 @@ var getData = function() {
 
             debugMsg('JSON file imported.');
 
-            customBuild(dat);
+            //Builds datasets
+            buildGeneric(dat);
+            buildDeath(dat);
+            buildArmed(dat);
+            buildGender(dat);
 
             debugMsg('Data loaded.');
             statusDataComplete();
@@ -128,13 +132,7 @@ var getData = function() {
 
 };
 
-var customBuild = function(data) {
-    buildGeneric(data);
-    buildDeath(data);
-    buildArmed(data);
-    buildGender(data);
-};
-
+// Displays the data on the map
 var displayMap = function() {
     $('#layer-option').change(function() {
         switch($('#layer-option').val()) {
@@ -171,6 +169,7 @@ var displayMap = function() {
     });
 };
 
+// Populates the information about each event
 var populateInfo = function(entry) {
     $('#data-info').css('display', 'initial');
     $('#info-date').text(entry['Date Searched']);
@@ -186,6 +185,7 @@ var populateInfo = function(entry) {
     $('#info-summary').text(entry['Summary'])
 };
 
+// Builds Generic Layer
 var buildGeneric = function(data) {
     var collectionGeneric = new L.LayerGroup();
     data.map(function(entry) {
@@ -207,6 +207,7 @@ var buildGeneric = function(data) {
     collections.generic = collectionGeneric;
 };
 
+// Customizable single colorization
 var colorBuildGeneric  = function() {
     $('#set-color-generic').change(function() {
         colorOptions.generic = $('#set-color-generic').val();
@@ -218,6 +219,7 @@ var colorBuildGeneric  = function() {
     });
 };
 
+// Builds Hit/Death Layer
 var buildDeath = function(data) {
     var collectionHit = new L.LayerGroup();
     var collectionKilled = new L.LayerGroup();
@@ -256,6 +258,7 @@ var buildDeath = function(data) {
     collections.killed = collectionKilled;
 };
 
+// Customizable Hit/Death colorization
 var colorBuildDeath  = function() {
     $('#set-color-hit').change(function() {
         colorOptions.hit = $('#set-color-hit').val();
@@ -276,6 +279,7 @@ var colorBuildDeath  = function() {
     });
 };
 
+// Builds Unarmed/Armed Layer
 var buildArmed = function(data) {
     var collectionUnarmed = new L.LayerGroup();
     var collectionArmed = new L.LayerGroup();
@@ -314,6 +318,7 @@ var buildArmed = function(data) {
     collections.armed = collectionArmed;
 };
 
+// Customizable Unarmed/Armed Colorization
 var colorBuildArmed  = function() {
     $('#set-color-unarmed').change(function() {
         colorOptions.unarmed = $('#set-color-unarmed').val();
@@ -333,6 +338,7 @@ var colorBuildArmed  = function() {
     });
 };
 
+// Builds Gender Layer
 var buildGender = function(data) {
     var collectionMale = new L.LayerGroup();
     var collectionFemale = new L.LayerGroup();
@@ -371,6 +377,7 @@ var buildGender = function(data) {
     collections.female = collectionFemale;
 };
 
+// Customizable Gender Colorization
 var colorBuildGender  = function() {
     $('#set-color-male').change(function() {
         colorOptions.male = $('#set-color-male').val();
